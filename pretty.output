@@ -1,0 +1,36 @@
+Feature: Employee management on Benefits Dashboard # features/employee.feature:1
+  As an Employer
+  I want to input my employee data
+  So that I can get a preview of benefits costs
+  Feature: Employee management on Benefits Dashboard  # features/employee.feature:1
+
+  Scenario: Add Employee                                                      # features/employee.feature:10
+    Given I am logged in as "testuser"                                        # features/steps/login_steps.py:5
+    Then I should see the Benefits Dashboard page                             # features/steps/common_steps.py:9
+    When I select Add Employee                                                # features/steps/add_employee_steps.py:5
+    And I enter employee details:                                             # features/steps/add_employee_steps.py:9
+      | firstName | lastName | dependents |
+      | Alice     | Harper   | 2          |
+    And I save the employee                                                   # features/steps/add_employee_steps.py:17
+    Then I should see the employee "Alice" "Harper" in the table              # features/steps/add_employee_steps.py:21
+    And the benefits cost calculations for "Alice" "Harper" should be correct # features/steps/add_employee_steps.py:28
+
+  Scenario: Edit Employee                                                   # features/employee.feature:19
+    Given I am logged in as "testuser"                                      # features/steps/login_steps.py:5
+    Then I should see the Benefits Dashboard page                           # features/steps/common_steps.py:9
+    Then the employee "Alice" "Harper" exists in the table                  # features/steps/edit_employee_steps.py:5
+    When I select the Action Edit for "Alice" "Harper"                      # features/steps/edit_employee_steps.py:12
+    And I update the employee details:                                      # features/steps/edit_employee_steps.py:16
+      | firstName | lastName | dependents |
+      | Robin     | Hood     | 4          |
+    And I update the employee                                               # features/steps/edit_employee_steps.py:24
+    Then I should see the employee "Robin" "Hood" in the table              # features/steps/add_employee_steps.py:21
+    And the benefits cost calculations for "Robin" "Hood" should be correct # features/steps/add_employee_steps.py:28
+
+  Scenario Outline: Delete Employee -- @1.1                        # features/employee.feature:41
+    Given I am logged in as "testuser"                             # features/steps/login_steps.py:5
+    Then I should see the Benefits Dashboard page                  # features/steps/common_steps.py:9
+    Then the employee "Robin" "Hood" exists in the table           # features/steps/edit_employee_steps.py:5
+    And I select the Action Delete for "Robin" "Hood"              # features/steps/edit_employee_steps.py:28
+    Then the employee "Robin" "Hood" should not exist in the table # features/steps/edit_employee_steps.py:32
+
