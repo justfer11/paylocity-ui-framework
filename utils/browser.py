@@ -8,7 +8,8 @@ def create_driver():
     options = ChromeOptions()
     if HEADLESS:
         options.add_argument("--headless=new")
-    options.add_argument("--window-size=1440,900")
+    else:
+        options.add_argument("--start-maximized")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
 
